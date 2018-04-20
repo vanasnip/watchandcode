@@ -3,29 +3,32 @@
  *
  */
 
-// *  It should have a store todos
-var todos = ['item 1','item 2','item 3','item 4'];
-// *  It should have a function to display todos
-function displayTodo(){
-  console.log('Ivano\'s',todos);
-}
-// *  it should have a function to add new todos
-function addNewTodo(item){
-  todos.push(item);
-  displayTodo();
-}
-//*  It should have a function to change a todo
-function changeTodo(key,item){
-  todos[key] = item; 
-displayTodo();
-}
-//*  It should have a function to delete a todo
-function deleteTodo(key){
-  todos.splice(key,1);
-displayTodo();
-}
-displayTodo();
-addNewTodo('item 5');
-changeTodo(3,'item four');
-deleteTodo(4);
+// *  It should store the todos array on an object
+
+var todos = {
+  list : ['item 1','item 2','item 3','item 4'],
+// *  It should have a displayTodo method 
+displayTodo: function (){
+  console.log('Ivano\'s',this.list);
+},
+// *  it should have a addNewTodo method
+addNewTodo: function (item){
+  this.list.push(item);
+  this.displayTodo();
+},
+//*  It should have a changeTodo method
+changeTodo:function (key,item){
+  this.list[key] = item; 
+this.displayTodo();
+},
+//*  It should have a deleteTodo method 
+deleteTodo:function (key){
+  this.list.splice(key,1);
+this.displayTodo();
+}};
+
+todos.displayTodo();
+todos.addNewTodo('item 5');
+todos.changeTodo(3,'item four');
+todos.deleteTodo(4);
 
