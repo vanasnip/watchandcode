@@ -7,9 +7,9 @@
 // .displayTodos should show completed 
 
 
-// *  It should store the myToDos array on an object
+// *  It should store the todoList array on an object
 
-var myToDos = {
+var todoList = {
   todos : [
     {
       todoText: 'item 1',
@@ -68,11 +68,27 @@ var myToDos = {
   },
   toggleCompleted: function(key){
     this.todos[key].completed = !this.todos[key].completed;
+    //  this.displayTodo();
+  },
+  toggleAll: function(){
+    var allTrue = true;
+
+    for(var i=0;i<this.todos.length;i++){
+      var todo = this.todos[i];
+      if(!todo.completed){
+        allTrue = false;
+        this.toggleCompleted(i);
+      }
+    }
+    if (allTrue){
+      for(var i=0;i<this.todos.length;i++) {
+        this.toggleCompleted(i);
+      }
+    }
     this.displayTodo();
-  }
-};
-myToDos.displayTodo();
-//myToDos.addNewTodo('item 5');
-//myToDos.changeTodo(3,'item four');
-//myToDos.deleteTodo(2);
-myToDos.toggleCompleted(1);
+  }};
+// todoList.displayTodo();
+  //todoList.addNewTodo('item 5');
+  //todoList.changeTodo(3,'item four');
+  //todoList.deleteTodo(2);
+// todoList.toggleCompleted(1);
