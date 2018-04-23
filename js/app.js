@@ -10,26 +10,9 @@
 // *  It should store the todoList array on an object
 
 var todoList = {
-  todos : [
-    {
-      todoText: 'item 1',
-      completed:false
-    },
-    {
-      todoText: 'item 2',
-      completed:false
-    },
-    {
-      todoText: 'item 3',
-      completed:false
-    },
-    {
-      todoText: 'item 4',
-      completed:false
-    }
-  ],
-  // *  It should have a displayTodo method 
-  displayTodo: function (){
+  todos : [],
+  // *  It should have a displayTodos method 
+  displayTodos: function (){
     var allT = this.todos;
     var len = allT.length;
     if(len < 1){
@@ -54,41 +37,50 @@ var todoList = {
       todoText : todoText,
       completed : false
     });
-    this.displayTodo();
+    this.displayTodos();
   },
   //*  It should have a changeTodo method
   changeTodo:function (key,item){
     this.todos[key].todoText = item; 
-    this.displayTodo();
+    this.displayTodos();
   },
   //*  It should have a deleteTodo method 
   deleteTodo:function (key){
     this.todos.splice(key,1);
-    this.displayTodo();
+    this.displayTodos();
   },
   toggleCompleted: function(key){
     this.todos[key].completed = !this.todos[key].completed;
-    //  this.displayTodo();
+    //  this.displayTodos();
   },
   toggleAll: function(){
-    var allTrue = true;
+    if (this.todos.length === 0){
+      console.log('Your todo list is empty');
+    } else {
+      var allTrue = true;
 
-    for(var i=0;i<this.todos.length;i++){
-      var todo = this.todos[i];
-      if(!todo.completed){
-        allTrue = false;
-        this.toggleCompleted(i);
+      for(var i=0;i<this.todos.length;i++){
+        var todo = this.todos[i];
+        if(!todo.completed){
+          allTrue = false;
+          this.toggleCompleted(i);
+        }
       }
-    }
-    if (allTrue){
-      for(var i=0;i<this.todos.length;i++) {
-        this.toggleCompleted(i);
+      if (allTrue){
+        for(var i=0;i<this.todos.length;i++) {
+          this.toggleCompleted(i);
+        }
       }
+      this.displayTodos();
     }
-    this.displayTodo();
-  }};
-// todoList.displayTodo();
-  //todoList.addNewTodo('item 5');
-  //todoList.changeTodo(3,'item four');
-  //todoList.deleteTodo(2);
-// todoList.toggleCompleted(1);
+  }
+};
+
+var displayTodosButton = document.getElementById('display-todos-btn');
+var toggleAllTodosButton = document.getElementById('toggle-all-todos-btn');
+
+displayTodosButton.addEventListener('click',function(){
+  todoList.displayTodos();
+});
+
+toggleAllTodosButton.addEventListener('click',function(){todoList.toggleAll();});
