@@ -1,56 +1,35 @@
 /*
- * V8 Requirements
+ * V9 Requirements
  *
  */
 
-// it should have working control for .addTodo
-// it should have working control for .changeTodo
-// it should have working control for .deleteTodo
-// it should have working control for .toggleCompleted
+// There should be an li element for every todo
+// Each li element should contain .todoText
+// Each li element should show .completed
 
 var todoList = {
   todos : [],
-  // *  It should have a displayTodos method 
-  displayTodos: function (){
-    var allT = this.todos;
-    var len = allT.length;
-    if(len < 1){
-      console.log('todos are empty');
-    } else {
-      console.log('My todo list:');
-      for(var i=0;i<len;i++){
-        var todo = allT[i];
-        var comp;
-        if(todo.completed){
-          comp = 'x';
-        } else {
-          comp = ' '; 
-        }
-        console.log(todo.todoText+' ['+comp+']');
-      }
-    }
-  },
   // *  it should have a addNewTodo method
   addNewTodo: function (todoText){
     this.todos.push({
       todoText : todoText,
       completed : false
     });
-    this.displayTodos();
+    
   },
   //*  It should have a changeTodo method
   changeTodo:function (key,item){
     this.todos[key].todoText = item; 
-    this.displayTodos();
+    
   },
   //*  It should have a deleteTodo method 
   deleteTodo:function (key){
     this.todos.splice(key,1);
-    this.displayTodos();
+    
   },
   toggleCompleted: function(key){
     this.todos[key].completed = !this.todos[key].completed;
-    this.displayTodos();
+    
   },
   toggleAll: function(){
     if (this.todos.length === 0){
@@ -70,10 +49,43 @@ var todoList = {
           this.toggleCompleted(i);
         }
       }
-      this.displayTodos();
+      
     }
   }
 };
+function elementFactory(elem,attr,appnd,todo){
+  var newElem = document.createElement(elem);
+  // Could have used document.querySelector('ul');
+  var node = document.getElementById(appnd);
+  attr.forEach(function(att){
+    newElem.setAttribute(att.type,att.val);
+  });
+  var li_text = todo.todoText;
+  var li_completed = todo.completed ? '{x}' : '{ }';
+  
+  var content = document.createTextNode(li_text+' '+li_completed);
+  newElem.appendChild(content);
+  node.appendChild(newElem);
+  return newElem;
+}
+function drawTodoList(){
+    var ulElem = 'todo-ul';
+    var clearUl = document.getElementById(ulElem);
+    clearUl.innerHTML = '';
+  if(todoList.todos.length > 0){
+    // each li  element containing 
+    todoList.todos.forEach(function(todo){
+      elementFactory(
+        'li',
+        [{type:'class',
+          val:'todo'}],
+        ulElem,
+        todo
+      );
+    });
+    // todoText and completed
+  } 
+}
 (function(){
   var inputButtonLinkup = [
     {inputID:'add', btnID:'btn-add'},
@@ -125,7 +137,7 @@ function inputRunner(params){
     var item = getInputVal(id);
     clearInputVal(id);
     if (valid(item)){
-          if(id !== 'add'){item = parseInt(item);}
+      if(id !== 'add'){item = parseInt(item);}
 
       todoList[method](item);
     }
@@ -139,13 +151,12 @@ function inputRunner(params){
       todoList[method](key,textChange);
     }
   }
+    drawTodoList(); 
 }
 var handlers = {
-  display: function(){
-    todoList.displayTodos();
-  },
   toggleAll: function(){
     todoList.toggleAll();
+    drawTodoList(); 
   },
   add: function(){
     inputRunner(['add','addNewTodo']);
