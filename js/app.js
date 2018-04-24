@@ -1,13 +1,12 @@
 /*
- * V1 Requirements
+ * V8 Requirements
  *
  */
-// .displayTodos should show .todoText
-// .displayTodos should tell you if todos is empty
-// .displayTodos should show completed 
 
-
-// *  It should store the todoList array on an object
+// it should have working control for .addTodo
+// it should have working control for .changeTodo
+// it should have working control for .deleteTodo
+// it should have working control for .toggleCompleted
 
 var todoList = {
   todos : [],
@@ -51,7 +50,7 @@ var todoList = {
   },
   toggleCompleted: function(key){
     this.todos[key].completed = !this.todos[key].completed;
-    //  this.displayTodos();
+    this.displayTodos();
   },
   toggleAll: function(){
     if (this.todos.length === 0){
@@ -75,12 +74,89 @@ var todoList = {
     }
   }
 };
+(function(){
+  var inputButtonLinkup = [
+    {inputID:'add', btnID:'btn-add'},
+    {inputID:'change-key', btnID:'btn-change'},
+    {inputID:'change-text', btnID:'btn-change'},
+    {inputID:'delete', btnID:'btn-delete'},
+    {inputID:'toggle', btnID:'btn-toggle'}
+  ];
+  function link(input,btn){
+    var myInput = document.getElementById(input);
+    var myBtn = document.getElementById(btn);
+    myInput.addEventListener('keyup', function(event){
+      event.preventDefault();
+      if(event.keyCode === 13){
+        myBtn.click(); 
+      }
+    });
+  }
+  var input; var btn
+  for(var i=0;i<inputButtonLinkup.length;i++){
+    input = inputButtonLinkup[i].inputID;
+    btn   = inputButtonLinkup[i].btnID;
+    link(input,btn);
+  }
+}())
+function getInputVal(id){
+  return document.getElementById(id).value;
+}
+function clearInputVal(id){
+  document.getElementById(id).value = '';
+}
+function valid(){
+  var status = true;
+  var items = arguments;
+  for(var i=0;i<items.length;i++){
+    if(items[i].length === 0){
+      status = false
+    } 
+  }
+  if(!status){ 
+    console.log('Error: Input not valid, action aborted');
+  } 
+  return status;
+}
+function inputRunner(params){
+  if (params.length === 2){ 
+    var id = params[0];
+    var method = params[1];
+    var item = getInputVal(id);
+    clearInputVal(id);
+    if (valid(item)){
+          if(id !== 'add'){item = parseInt(item);}
 
-var displayTodosButton = document.getElementById('display-todos-btn');
-var toggleAllTodosButton = document.getElementById('toggle-all-todos-btn');
-
-displayTodosButton.addEventListener('click',function(){
-  todoList.displayTodos();
-});
-
-toggleAllTodosButton.addEventListener('click',function(){todoList.toggleAll();});
+      todoList[method](item);
+    }
+  } else {
+    var key = parseInt(getInputVal(params[0]));
+    var textChange = getInputVal(params[1]);
+    clearInputVal(params[0]);
+    clearInputVal(params[1]);
+    var method = params[2];
+    if (valid(key,textChange)){
+      todoList[method](key,textChange);
+    }
+  }
+}
+var handlers = {
+  display: function(){
+    todoList.displayTodos();
+  },
+  toggleAll: function(){
+    todoList.toggleAll();
+  },
+  add: function(){
+    inputRunner(['add','addNewTodo']);
+  },
+  change: function(){
+    inputRunner(['change-key','change-text','changeTodo']);
+  },
+  delete: function(){
+    inputRunner(['delete','deleteTodo']);
+  },
+  toggle: function(){
+    inputRunner(['toggle','toggleCompleted']);
+  },
+}

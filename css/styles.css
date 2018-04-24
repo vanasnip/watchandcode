@@ -1,0 +1,10 @@
+div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+input {
+  width: 141px;
+}
+input#change-key,input#change-text {
+  width: 65.5px;
+}
