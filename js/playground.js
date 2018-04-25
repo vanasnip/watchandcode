@@ -39,7 +39,7 @@ function _04(){
       elems[i].addEventListener('click',function(e){console.log(e.srcElement.innerHTML)});
     };
   }
-} //_04();
+} 
 // Returning a value from a function:
 function _05(){
   function multiplyTwoNumbers(x,y){return x*y;}

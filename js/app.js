@@ -56,16 +56,9 @@ var todoList = {
     }
   }
 };
-function elementFactory(elem,attr,appnd,todo,index){
+function elementFactory(elem,attr,node,todo,index){
   var newElem = document.createElement(elem);
-  var delBtn = document.createElement('button');
-  delBtn.innerHTML = '- del';
-  delBtn.addEventListener('click',function(){
-    todoList.deleteTodo(index);
-    drawTodoList();
-  })
-  // Could have used document.querySelector('ul');
-  var node = document.getElementById(appnd);
+  var delBtn = createDeleteButton(index);
   attr.forEach(function(att){
     newElem.setAttribute(att.type,att.val);
   });
@@ -77,10 +70,16 @@ function elementFactory(elem,attr,appnd,todo,index){
   node.appendChild(newElem);
   return newElem;
 }
+function createDeleteButton(index){
+  var delBtn = document.createElement('button');
+  delBtn.textContent = '- del';
+  delBtn.className = 'deleteButton';
+  return delBtn;
+}
 function drawTodoList(){
-  var ulElem = 'todo-ul';
-  var clearUl = document.getElementById(ulElem);
-  clearUl.innerHTML = '';
+  // Could have used document.querySelector('ul');
+  var ulElem = document.getElementById('todo-ul');
+  ulElem.innerHTML = '';
   var todoLen = todoList.todos.length;
   var uniqueID = 'todo-li-'
   var todo;
@@ -92,7 +91,7 @@ function drawTodoList(){
         'li',// Element
         [ // Attributes
           {type:'class',val:'todo'},
-          {type:'id',val:uniqueID+i}
+          {type:'id',val:i}
         ],
         ulElem, // Container element
         todo, // Data: todoText & completed
@@ -125,6 +124,13 @@ function drawTodoList(){
     btn   = inputButtonLinkup[i].btnID;
     link(input,btn);
   }
+  var ulElem = document.getElementById('todo-ul');
+  ulElem.addEventListener('click',function(event){
+    debugger;
+    var index = event.target.parentNode.id;
+    todoList.deleteTodo(index);
+    drawTodoList();
+  });
 }())
 function getInputVal(id){
   return document.getElementById(id).value;
