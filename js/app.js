@@ -127,9 +127,13 @@ function drawTodoList(){
   var ulElem = document.getElementById('todo-ul');
   ulElem.addEventListener('click',function(event){
     debugger;
+    console.log(event);
     var index = event.target.parentNode.id;
-    todoList.deleteTodo(index);
-    drawTodoList();
+    var deleteBtnClicked = event.target.className === 'deleteButton';
+    if(deleteBtnClicked){
+      todoList.deleteTodo(index);
+      drawTodoList();
+    }
   });
 }())
 function getInputVal(id){
