@@ -105,7 +105,6 @@ function drawTodoList(){
     {inputID:'add', btnID:'btn-add'},
     {inputID:'change-key', btnID:'btn-change'},
     {inputID:'change-text', btnID:'btn-change'},
-    {inputID:'delete', btnID:'btn-delete'},
     {inputID:'toggle', btnID:'btn-toggle'}
   ];
   function link(input,btn){
@@ -127,7 +126,6 @@ function drawTodoList(){
   var ulElem = document.getElementById('todo-ul');
   ulElem.addEventListener('click',function(event){
     debugger;
-    console.log(event);
     var index = event.target.parentNode.id;
     var deleteBtnClicked = event.target.className === 'deleteButton';
     if(deleteBtnClicked){
