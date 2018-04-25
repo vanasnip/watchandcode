@@ -1,11 +1,14 @@
 /*
- * V9 Requirements
+ * V10 Requirements
  *
  */
 
-// There should be an li element for every todo
-// Each li element should contain .todoText
-// Each li element should show .completed
+// There should be a way to create delete buttons
+// There should be a delete button for each todo
+// Each li should have an id that has the todo position.
+// Delete buttons should have access to the todo id
+// Clicking delete should update the todoList.todos and the DOM
+
 
 var todoList = {
   todos : [],
@@ -53,8 +56,14 @@ var todoList = {
     }
   }
 };
-function elementFactory(elem,attr,appnd,todo){
+function elementFactory(elem,attr,appnd,todo,index){
   var newElem = document.createElement(elem);
+  var delBtn = document.createElement('button');
+  delBtn.innerHTML = '- del';
+  delBtn.addEventListener('click',function(){
+    todoList.deleteTodo(index);
+    drawTodoList();
+  })
   // Could have used document.querySelector('ul');
   var node = document.getElementById(appnd);
   attr.forEach(function(att){
@@ -62,28 +71,34 @@ function elementFactory(elem,attr,appnd,todo){
   });
   var li_text = todo.todoText;
   var li_completed = todo.completed ? '{x}' : '{ }';
-  
   var content = document.createTextNode(li_text+' '+li_completed);
   newElem.appendChild(content);
+  newElem.appendChild(delBtn);
   node.appendChild(newElem);
   return newElem;
 }
 function drawTodoList(){
-    var ulElem = 'todo-ul';
-    var clearUl = document.getElementById(ulElem);
-    clearUl.innerHTML = '';
-  if(todoList.todos.length > 0){
+  var ulElem = 'todo-ul';
+  var clearUl = document.getElementById(ulElem);
+  clearUl.innerHTML = '';
+  var todoLen = todoList.todos.length;
+  var uniqueID = 'todo-li-'
+  var todo;
+  if(todoLen > 0){
     // each li  element containing 
-    todoList.todos.forEach(function(todo){
+    for(var i=0;i<todoLen;i++){
+      todo = todoList.todos[i];
       elementFactory(
-        'li',
-        [{type:'class',
-          val:'todo'}],
-        ulElem,
-        todo
+        'li',// Element
+        [ // Attributes
+          {type:'class',val:'todo'},
+          {type:'id',val:uniqueID+i}
+        ],
+        ulElem, // Container element
+        todo, // Data: todoText & completed
+        i 
       );
-    });
-    // todoText and completed
+    };
   } 
 }
 (function(){
@@ -151,7 +166,7 @@ function inputRunner(params){
       todoList[method](key,textChange);
     }
   }
-    drawTodoList(); 
+  drawTodoList(); 
 }
 var handlers = {
   toggleAll: function(){

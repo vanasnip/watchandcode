@@ -8,3 +8,7 @@ input {
 input#change-key,input#change-text {
   width: 65.5px;
 }
+#main-div {
+  width: 300px;
+  margin:auto;
+}

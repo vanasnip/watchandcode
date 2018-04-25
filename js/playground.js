@@ -29,6 +29,8 @@ function _03(){
   }
   custForEach(students,logname);
 } //_03();
+// functions that take other functions are higher order functions, 
+// functions that are passed in to HOFunctions are callbacks
 function _04(){
   var elems = document.getElementsByClassName('todo');
   console.log(elems[0]);
@@ -37,4 +39,11 @@ function _04(){
       elems[i].addEventListener('click',function(e){console.log(e.srcElement.innerHTML)});
     };
   }
-} _04();
+} //_04();
+// Returning a value from a function:
+function _05(){
+  function multiplyTwoNumbers(x,y){return x*y;}
+ var theProductOf2And10 = multiplyTwoNumbers(2,10);
+  console.log(theProductOf2And10);
+}
+
