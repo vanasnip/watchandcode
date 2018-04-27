@@ -40,17 +40,16 @@ var todoList = {
     } else {
       var allTrue = true;
 
-      for(var i=0;i<this.todos.length;i++){
-        var todo = this.todos[i];
-        if(!todo.completed){
+      this.todos.forEach(function(todo){
+        if(!todo.completed) {
           allTrue = false;
-          this.toggleCompleted(i);
+          todo.completed = true;
         }
-      }
+      });
       if (allTrue){
-        for(var i=0;i<this.todos.length;i++) {
-          this.toggleCompleted(i);
-        }
+        this.todos.forEach(function(todo){
+          todo.completed = false;
+        });
       }
       
     }
@@ -85,8 +84,7 @@ function drawTodoList(){
   var todo;
   if(todoLen > 0){
     // each li  element containing 
-    for(var i=0;i<todoLen;i++){
-      todo = todoList.todos[i];
+    todoList.todos.forEach(function(todo,i){
       elementFactory(
         'li',// Element
         [ // Attributes
@@ -97,7 +95,7 @@ function drawTodoList(){
         todo, // Data: todoText & completed
         i 
       );
-    };
+    });
   } 
 }
 (function(){
@@ -118,11 +116,9 @@ function drawTodoList(){
     });
   }
   var input; var btn
-  for(var i=0;i<inputButtonLinkup.length;i++){
-    input = inputButtonLinkup[i].inputID;
-    btn   = inputButtonLinkup[i].btnID;
-    link(input,btn);
-  }
+  inputButtonLinkup.forEach(function(inpBtn){
+    link(inpBtn.inputID,inpBtn.btnID);
+  });
   var ulElem = document.getElementById('todo-ul');
   ulElem.addEventListener('click',function(event){
     debugger;
