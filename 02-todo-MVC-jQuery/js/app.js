@@ -77,7 +77,7 @@ jQuery(function ($) {
 			var activeTodoCount = this.getActiveTodos().length;
 			var template = this.footerTemplate({
 				activeTodoCount: activeTodoCount,
-				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
+				activeTodoWord: util.pluralize(activeTodoCount, 'boob'),
 				completedTodos: todoCount - activeTodoCount,
 				filter: this.filter
 			});
@@ -125,7 +125,6 @@ jQuery(function ($) {
 			var id = $(el).closest('li').data('id');
 			var todos = this.todos;
 			var i = todos.length;
-
 			while (i--) {
 				if (todos[i].id === id) {
 					return i;
@@ -144,7 +143,7 @@ jQuery(function ($) {
 				title: val,
 				completed: false
 			});
-
+      console.log(this.todos);
 			$input.val('');
 
 			this.render();
