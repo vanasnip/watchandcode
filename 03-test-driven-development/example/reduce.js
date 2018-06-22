@@ -75,6 +75,7 @@ tests({
     eq(numberOfTimesCallbackHasRun,1);
 },
 'If no initialValue, callback should run array.length - 1 times.':function(){
+  fail();
   let numberOfTimesCallbackHasRun = 0;
   reduce([1],function(){
     numberOfTimesCallbackHasRun++;
